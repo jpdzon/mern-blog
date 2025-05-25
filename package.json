@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "react-scripts": "^5.0.1"
-=======
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -44,6 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
->>>>>>> 0177a623c8414b7c9314f9ef952a10dacb1c0485
   }
 }

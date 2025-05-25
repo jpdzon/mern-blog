@@ -32,38 +32,21 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+    const {username, password} = req.body;
 
-  try {
-    const userDoc = await User.findOne({ username });
-
-    if (!userDoc) {
-      return res.status(400).json('wrong credentials');
-    }
-
-    const passOK = bcrypt.compareSync(password, userDoc.password); // compare passwords
-
-    if (passOK) {
-      // logged in
-      jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
-        if (err) throw err;
-        res
-          .cookie('token', token, {
-            httpOnly: true,
-            sameSite: 'lax', // or 'none' if using HTTPS
-            secure: false,   // set to true if using HTTPS
-          })
-          .json('ok');
-      });
-    } else {
-      res.status(400).json('wrong credentials');
-    }
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json('internal server error');
-  }
+        const userDoc = await User.findOne({username});
+        const passOK = bcrypt.compareSync (password, userDoc.password); //compare password entered from password in the database
+        if(passOK){
+            //logged in
+            jwt.sign({username, id:userDoc._id}, secret, {}, (err,token) =>{
+                if (err) throw err;
+                res.cookie('token', token).json('ok');
+            });
+        }
+        else{
+            res.status(400).json ('wrong credentials');
+        }
 });
-
 
 app.get('/profile', (req,res) => {
   const {token} = req.cookies;
